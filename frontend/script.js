@@ -31,14 +31,14 @@ function showBooks(books) {
         bookEl.classList.add('book')
 
         bookEl.innerHTML = `
-            <img src="${image_url}" alt="${title}">
+            <img src="${image_url?image_url:"./bookImgReplacement.jpeg"}" alt="${title?title:"Book Title"}">
             <div class="book-info">
-          <h3>${title}</h3>
-          <span class="${getClassByRate(rating)}">${rating}</span>
+          <h3>${title?title:"Book Title"}</h3>
+          <span class="${getClassByRate(rating)}">${rating?rating:'No Ratings'}</span>
             </div>
             <div class="overview">
           <h3>Overview</h3>
-          ${overview}
+          ${overview?overview:'Read it to find out'}
         </div>
         `
         main.appendChild(bookEl)
