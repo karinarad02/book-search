@@ -56,7 +56,19 @@ function getClassByRate(vote) {
 }
 
 // Define the search API endpoint
-// const SEARCH_API = 'https://localhost/search?query=';
+const SEARCH_API = 'https://localhost:5500/search?query='
+
+function getBooks(url) {
+    fetch(url)
+    .then(res => res.json())
+    .then(data => {
+        if(data.results.length !== 0) {
+            showBooks(data.results)
+        } else {
+            main.innerHTML = `<h1>No results for this search</h1>`
+        }
+    })
+}
 
 form.addEventListener('submit', (e) => {
     e.preventDefault()
