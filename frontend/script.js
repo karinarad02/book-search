@@ -5,44 +5,24 @@ const main = document.getElementById('main');
 const form = document.getElementById('form');
 const search = document.getElementById('search');
 
+const DATABASE_URL = 'http://localhost:3000/api/books';
 // Get initial books from the Oracle Database
-getBooksFromDatabase();
 
 async function getBooksFromDatabase() {
-  let connection;
   try {
-    // Establish a connection to the Oracle Database
-    connection = await oracledb.getConnection(dbConfig);
-
-    // Define your SQL query to fetch book information from the "book" table
-    const sqlQuery = 'SELECT title, isbn13, num_pages, publication_date FROM book';
-
-    // Execute the query
-    const result = await connection.execute(sqlQuery);
-
-    // Convert the result to an array of books
-    const books = result.rows.map((row) => ({
-      title: row[0],
-      isbn13: row[1],
-      num_pages: row[2],
-      publication_date: row[3],
-    }));
-
-    // Display the books
-    //showBooks(books);
-  } catch (error) {
-    console.error(error);
-  } finally {
-    // Close the database connection
-    if (connection) {
-      try {
-        await connection.close();
-      } catch (error) {
-        console.error(error);
-      }
+    const response = await fetch(DATABASE_URL);
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
     }
+
+    const books = await response.json();
+    // Call a function to display the books in your frontend
+    showBooks(books);
+  } catch (error) {
+    console.error('Error fetching books:', error);
   }
 }
+getBooksFromDatabase();
 
 function showBooks(books) {
     main.innerHTML = ''
