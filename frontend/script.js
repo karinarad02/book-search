@@ -1,6 +1,3 @@
-const IMG_PATH = 'https://image.tmdb.org/t/p/w1280'
-const SEARCH_API = 'https://api.themoviedb.org/3/search/movie?api_key=3fd2be6f0c70a2a598f084ddfb75487c&query="'
-
 const main = document.getElementById('main');
 const form = document.getElementById('form');
 const search = document.getElementById('search');
@@ -28,16 +25,16 @@ function showBooks(books) {
     main.innerHTML = ''
 
     books.forEach((book) => {
-        const { title, poster_path, vote_average, overview } = book
-
+        const { title, isbn13, num_pages, publication_date,image_url,rating } = book
+        const overview= "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum."
         const bookEl = document.createElement('div')
         bookEl.classList.add('book')
 
         bookEl.innerHTML = `
-            <img src="${IMG_PATH + poster_path}" alt="${title}">
+            <img src="${image_url}" alt="${title}">
             <div class="book-info">
           <h3>${title}</h3>
-          <span class="${getClassByRate(vote_average)}">${vote_average}</span>
+          <span class="${getClassByRate(rating)}">${rating}</span>
             </div>
             <div class="overview">
           <h3>Overview</h3>
@@ -49,14 +46,17 @@ function showBooks(books) {
 }
 
 function getClassByRate(vote) {
-    if(vote >= 8) {
+    if(vote >= 4) {
         return 'green'
-    } else if(vote >= 5) {
+    } else if(vote >= 2.5) {
         return 'orange'
     } else {
         return 'red'
     }
 }
+
+// Define the search API endpoint
+// const SEARCH_API = 'https://localhost/search?query=';
 
 form.addEventListener('submit', (e) => {
     e.preventDefault()
