@@ -31,11 +31,11 @@ function showBooks(books) {
         const { title, poster_path, vote_average, overview } = book
 
         const bookEl = document.createElement('div')
-        bookEl.classList.add('movie')
+        bookEl.classList.add('book')
 
         bookEl.innerHTML = `
             <img src="${IMG_PATH + poster_path}" alt="${title}">
-            <div class="movie-info">
+            <div class="book-info">
           <h3>${title}</h3>
           <span class="${getClassByRate(vote_average)}">${vote_average}</span>
             </div>
