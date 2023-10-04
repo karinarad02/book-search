@@ -1,19 +1,9 @@
 const IMG_PATH = 'https://image.tmdb.org/t/p/w1280'
 const SEARCH_API = 'https://api.themoviedb.org/3/search/movie?api_key=3fd2be6f0c70a2a598f084ddfb75487c&query="'
 
-const oracledb = require('oracledb');
-const { oracledbConfig } = require('./dbConfig'); // Replace with your database connection details
-
 const main = document.getElementById('main');
 const form = document.getElementById('form');
 const search = document.getElementById('search');
-
-// Define your Oracle Database connection configuration
-const dbConfig = {
-  user: 'C##KARINA',
-  password: 'karina',
-  connectString: 'localhost:1521/orclpdb',
-};
 
 // Get initial books from the Oracle Database
 getBooksFromDatabase();
