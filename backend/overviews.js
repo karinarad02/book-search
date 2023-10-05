@@ -17,7 +17,7 @@ async function fetchDataFromGoodreads(isbn13) {
       await page.goto(apiUrl);
   
       const bookOverview = await page.evaluate(() => {
-        const overviewElement = document.querySelector('.Formatted');
+        const overviewElement = document.querySelector('span .Formatted');
         return overviewElement ? overviewElement.textContent.trim() : null;
       });
   
@@ -50,9 +50,15 @@ async function fetchDataFromGoodreads(isbn13) {
             }
           );
   
-          console.log(`Updated overview for ISBN-13: ${isbn13}`);
+          console.log(`Updated overview for ISBN-13: ${isbn13} with ${bookOverview}`);
+          await connection.commit();
         } catch (error) {
           console.error(`Error fetching or updating overview for ISBN-13: ${isbn13}`, error.message);
+        }
+
+        if(isbn13 == '9790007672386'){
+          console.log('done');
+            break;
         }
       }
   

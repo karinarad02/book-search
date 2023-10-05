@@ -25,12 +25,13 @@ function showBooks(books) {
     main.innerHTML = ''
 
     books.forEach((book) => {
-        const { title, isbn13, num_pages, publication_date,image_url,rating,overview } = book
+        const { title, num_pages, publication_date,image_url,rating,overview } = book
         const bookEl = document.createElement('div')
         bookEl.classList.add('book')
 
         bookEl.innerHTML = `
             <img src="${image_url?image_url:"./bookImgReplacement.jpeg"}" alt="${title?title:"Book Title"}">
+            <span class="readtype">${getTextByPages(num_pages)}</span>
             <div class="book-info">
           <h3>${title?title:"Book Title"}</h3>
           <span class="${getClassByRate(rating)}">${rating?rating:'No Ratings'}</span>
@@ -54,31 +55,41 @@ function getClassByRate(vote) {
     }
 }
 
-// Define the search API endpoint
-const SEARCH_API = 'https://localhost:5500/search?query='
+function getTextByPages(num) {
+    if(num >= 400) {
+        return 'advanced read'
+    } else if(num >= 100) {
+        return 'medium read'
+    } else {
+        return 'light read'
+    }
+}
+
+// Define the search API endpoint to match your server route
+const SEARCH_API = 'http://localhost:3000/api/search?query='; // Update the port and path as needed
 
 function getBooks(url) {
-    fetch(url)
-    .then(res => res.json())
-    .then(data => {
-        if(data.results.length !== 0) {
-            showBooks(data.results)
-        } else {
-            main.innerHTML = `<h1>No results for this search</h1>`
-        }
-    })
+  fetch(url)
+    .then((res) => res.json())
+    .then((data) => {
+      if (data.length !== 0) { // Data is an array of books
+        showBooks(data); // Update the function to handle the array of books
+      } else {
+        main.innerHTML = `<h1>No results for this search</h1>`;
+      }
+    });
 }
 
 form.addEventListener('submit', (e) => {
-    e.preventDefault()
+  e.preventDefault();
 
-    const searchTerm = search.value
+  const searchTerm = search.value;
 
-    if(searchTerm && searchTerm !== '') {
-        getBooks(SEARCH_API + searchTerm)
+  if (searchTerm && searchTerm !== '') {
+    getBooks(SEARCH_API + searchTerm);
 
-        search.value = ''
-    } else {
-        window.location.reload()
-    }
-})
+    search.value = '';
+  } else {
+    window.location.reload();
+  }
+});

@@ -55,8 +55,14 @@ async function fetchDataFromGoodreads(isbn13) {
           );
   
           console.log(`Updated rating for ISBN-13: ${isbn13} - Average Rating: ${averageRating}`);
+          await connection.commit();
         } catch (error) {
           console.error(`Error fetching or updating rating for ISBN-13: ${isbn13}`, error.message);
+        }
+        
+        if(isbn13 == '9790007672386'){
+          console.log('done');
+            break;
         }
       }
   
