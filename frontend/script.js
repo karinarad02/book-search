@@ -25,8 +25,7 @@ function showBooks(books) {
     main.innerHTML = ''
 
     books.forEach((book) => {
-        const { title, isbn13, num_pages, publication_date,image_url,rating } = book
-        const overview= "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum."
+        const { title, isbn13, num_pages, publication_date,image_url,rating,overview } = book
         const bookEl = document.createElement('div')
         bookEl.classList.add('book')
 

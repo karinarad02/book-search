@@ -21,7 +21,7 @@ app.get('/api/books', async (req, res) => {
     const connection = await oracledb.getConnection(dbConfig);
 
     // Define your SQL query to fetch book information from the "book" table
-    const sqlQuery = 'SELECT title, isbn13, num_pages, publication_date,image_url FROM book';
+    const sqlQuery = 'SELECT title, isbn13, num_pages, publication_date,image_url,overview FROM book';
 
     // Execute the query
     const result = await connection.execute(sqlQuery);
@@ -33,11 +33,12 @@ app.get('/api/books', async (req, res) => {
       num_pages: row[2],
       publication_date: row[3],
       image_url: row[4],
+      overview: row[5],
     }));
 
     // Send the books as a JSON response
     res.json(books);
-    console.log(books[0].image_url)
+
   } catch (error) {
     console.error('Error fetching data from Oracle Database:', error);
     res.status(500).json({ error: 'Internal Server Error' });

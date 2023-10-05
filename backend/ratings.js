@@ -1,6 +1,11 @@
 //goodreads average rating
 
-
+const oracledb = require('oracledb');
+const dbConfig = {
+    user: 'C##KARINA',
+    password: 'karina',
+    connectString: 'localhost:1521/xe',
+};
 const puppeteer = require('puppeteer');
 
 async function fetchDataFromGoodreads(isbn13) {
@@ -10,6 +15,7 @@ async function fetchDataFromGoodreads(isbn13) {
   
       const apiUrl = `http://www.goodreads.com/book/isbn/${isbn13}`;
       await page.goto(apiUrl);
+      //https://www.goodreads.com/book/isbn/0307277674
   
       const averageRating = await page.evaluate(() => {
         const averageRatingElement = document.querySelector('.RatingStatistics__rating');
