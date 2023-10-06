@@ -8,16 +8,39 @@ const dbConfig = {
 };
 const puppeteer = require('puppeteer');
 
+async function closeSignInModalIfPresent(page) {
+  // Selector for the sign-in modal
+  const modalSelector = '.Overlay__window';
+
+  const modal = await page.$(modalSelector);
+  if (modal) {
+    console.log('Sign-in modal found. Closing...');
+    await page.evaluate(() => {
+      // Close the modal or perform an action to bypass it
+      // You may need to inspect the modal's HTML and find the appropriate close button or action
+      // For demonstration purposes, we'll just click a hypothetical close button with class 'close-button'
+      const closeButton = document.querySelector('.Button');
+      if (closeButton) {
+        closeButton.click();
+      }
+    });
+    console.log('Sign-in modal closed.');
+  }
+}
+
 async function fetchDataFromGoodreads(isbn13) {
     try {
       const browser = await puppeteer.launch({ headless: "new" });
       const page = await browser.newPage();
+
+      await closeSignInModalIfPresent(page);
   
       const apiUrl = `http://www.goodreads.com/book/isbn/${isbn13}`;
       await page.goto(apiUrl);
   
       const bookOverview = await page.evaluate(() => {
-        const overviewElement = document.querySelector('span .Formatted');
+        const overviewElement = document.querySelector('.BookPageMetadataSection__description span.Formatted');
+        console.log(overviewElement);
         return overviewElement ? overviewElement.textContent.trim() : null;
       });
   
